@@ -51,7 +51,7 @@ TheLetter.prototype = {
         this.data.put(title,letterItem);
     },
     getall:function(){
-        return JSON.stringify(this.data);
+        return this.data.toString();
     },
     get:function(title){
         if(!title){
