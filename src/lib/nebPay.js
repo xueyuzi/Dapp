@@ -1,44 +1,13 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-var isChrome = function () {
-    if (typeof window !== "undefined") {
-        var userAgent = navigator.userAgent.toLowerCase();
-        if (userAgent.match(/chrome\/([\d\.]+)/)) {
-            return true;
-        }
-    }
-    return false;
-};
-
-var randomCode = function (len) {
-    var d,
-        e,
-        b = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-        c = "";
-    for (d = 0; len > d; d += 1) {
-        e = Math.random() * b.length;
-        e = Math.floor(e);
-        c += b.charAt(e);
-    }
-    return c;
-};
-
-module.exports = {
-    isChrome: isChrome,
-    randomCode: randomCode
-};
-
-},{}],2:[function(require,module,exports){
-"use strict";
-
 var payUrl = "https://pay.nebulas.io/api/pay";
 
 module.exports = {
     payUrl: payUrl
 };
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 "use strict";
 
 var callbackMap = {};
@@ -74,7 +43,7 @@ window.addEventListener('message', function (resp) {
 
 module.exports = openExtension;
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 var get = function (url, body) {
@@ -122,14 +91,14 @@ module.exports = {
     request: request
 };
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 var BigNumber = require("bignumber.js");
 
-var Utils = require("./Utils");
+var Utils = require("./utils");
 var QRCode = require("./qrcode");
-//var Config = require("./config");
+var Config = require("./config");
 
 var openExtension = require("./extensionUtils.js");
 
@@ -195,7 +164,7 @@ function showQRCode(params, options) {
 
 module.exports = Pay;
 
-},{"./Utils":1,"./extensionUtils.js":3,"./qrcode":6,"bignumber.js":7}],6:[function(require,module,exports){
+},{"./config":1,"./extensionUtils.js":2,"./qrcode":5,"./utils":6,"bignumber.js":7}],5:[function(require,module,exports){
 "use strict";
 
 var QRCode = require('qrcode');
@@ -276,7 +245,36 @@ module.exports = {
 	showQRCode: showQRCode
 };
 
-},{"qrcode":12}],7:[function(require,module,exports){
+},{"qrcode":12}],6:[function(require,module,exports){
+"use strict";
+
+var isChrome = function () {
+    if (typeof window !== "undefined") {
+        var userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.match(/chrome\/([\d\.]+)/)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+var randomCode = function (len) {
+    var d,
+        e,
+        b = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        c = "";
+    for (d = 0; len > d; d += 1) {
+        e = Math.random() * b.length, e = Math.floor(e), c += b.charAt(e);
+    }
+    return c;
+};
+
+module.exports = {
+    isChrome: isChrome,
+    randomCode: randomCode
+};
+
+},{}],7:[function(require,module,exports){
 /*! bignumber.js v5.0.0 https://github.com/MikeMcl/bignumber.js/LICENCE */
 
 ;(function (globalObj) {
@@ -1099,7 +1097,7 @@ module.exports = {
                       // Return NaN if either NaN, or both Infinity or 0.
                       !x.s || !y.s || ( xc ? yc && xc[0] == yc[0] : !yc ) ? NaN :
 
-                        // Return Â±0 if x is Â±0 or y is Â±Infinity, or return Â±Infinity as y is Â±0.
+                        // Return ¡À0 if x is ¡À0 or y is ¡ÀInfinity, or return ¡ÀInfinity as y is ¡À0.
                         xc && xc[0] == 0 || !yc ? s * 0 : s / 0
                     );
                 }
@@ -1431,7 +1429,7 @@ module.exports = {
                 var base,
                     s = num ? str : str.replace( whitespaceOrPlus, '' );
 
-                // No exception on Â±Infinity or NaN.
+                // No exception on ¡ÀInfinity or NaN.
                 if ( isInfinityOrNaN.test(s) ) {
                     x.s = isNaN(s) ? null : s < 0 ? -1 : 1;
                 } else {
@@ -1702,7 +1700,7 @@ module.exports = {
 
         /*
          * Return the number of decimal places of the value of this BigNumber, or null if the value
-         * of this BigNumber is Â±Infinity or NaN.
+         * of this BigNumber is ¡ÀInfinity or NaN.
          */
         P.decimalPlaces = P.dp = function () {
             var n, v,
@@ -2099,7 +2097,7 @@ module.exports = {
 
             if ( !xe || !ye ) {
 
-                // Return Â±Infinity if either Â±Infinity.
+                // Return ¡ÀInfinity if either ¡ÀInfinity.
                 if ( !xc || !yc ) return new BigNumber( a / 0 );
 
                 // Either zero?
@@ -2215,7 +2213,7 @@ module.exports = {
          *
          * k {number} Integer, -MAX_SAFE_INTEGER to MAX_SAFE_INTEGER inclusive.
          *
-         * If k is out of range and ERRORS is false, the result will be Â±0 if k < 0, or Â±Infinity
+         * If k is out of range and ERRORS is false, the result will be ¡À0 if k < 0, or ¡ÀInfinity
          * otherwise.
          *
          * 'shift() argument not an integer: {k}'
@@ -2371,7 +2369,7 @@ module.exports = {
                 xc = x.c,
                 yc = ( id = 17, y = new BigNumber( y, b ) ).c;
 
-            // Either NaN, Â±Infinity or Â±0?
+            // Either NaN, ¡ÀInfinity or ¡À0?
             if ( !xc || !yc || !xc[0] || !yc[0] ) {
 
                 // Return NaN if either is NaN, or one is 0 and the other is Infinity.
@@ -2380,11 +2378,11 @@ module.exports = {
                 } else {
                     y.s *= x.s;
 
-                    // Return Â±Infinity if either is Â±Infinity.
+                    // Return ¡ÀInfinity if either is ¡ÀInfinity.
                     if ( !xc || !yc ) {
                         y.c = y.e = null;
 
-                    // Return Â±0 if either is Â±0.
+                    // Return ¡À0 if either is ¡À0.
                     } else {
                         y.c = [0];
                         y.e = 0;
@@ -2678,7 +2676,7 @@ module.exports = {
                 m = new BigNumber(m);
             }
 
-            // Pass Â±Infinity to Math.pow if exponent is out of range.
+            // Pass ¡ÀInfinity to Math.pow if exponent is out of range.
             if ( !isValidInt( n, -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER, 23, 'exponent' ) &&
               ( !isFinite(n) || i > MAX_SAFE_INTEGER && ( n /= 0 ) ||
                 parseFloat(n) != n && !( n = NaN ) ) || n == 0 ) {
@@ -6499,7 +6497,7 @@ var defaultOptions = {
 	},
 	// callback is the return url after payment
 	callback: config.payUrl,
-	//listenerï¼šspecify a listener function to handle payment feedback message(only valid for browser extension)
+	//listener£ºspecify a listener function to handle payment feedback message(only valid for browser extension)
 	listener: undefined,
 	// if use nrc20pay ,should input nrc20 params like address, name, symbol, decimals
 	nrc20: undefined
@@ -6552,7 +6550,6 @@ NebPay.prototype = {
 		return this._pay.submit(NAS, to, value, payload, options);
 	},
 	simulateCall: function (to, value, func, args, options) {
-		//this API will not be supported in the future
 		var payload = {
 			type: "simulateCall",
 			function: func,
@@ -6569,4 +6566,4 @@ NebPay.prototype = {
 
 module.exports = NebPay;
 
-},{"./libs/config":2,"./libs/http":4,"./libs/pay":5,"bignumber.js":7,"extend":10}]},{},[]);
+},{"./libs/config":1,"./libs/http":3,"./libs/pay":4,"bignumber.js":7,"extend":10}]},{},[]);
