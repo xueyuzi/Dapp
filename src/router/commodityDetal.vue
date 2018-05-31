@@ -8,33 +8,25 @@
             <el-button>返回列表</el-button>
         </router-link>
 
-        <el-card class="box-card" style="margin:10px 0">
-            <div class="avatar">
-            <img class="avatar-img" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=322489505,710464833&fm=27&gp=0.jpg" alt="">                
-            0xkldsjalfksjdf
-            </div>
-            <div class="comment">
-                呵呵 
-            </div>
-            <time>2017-02-03 11:11:11</time>
-        </el-card>
+        <commentBox :comments="comments"/>
         
     </div>
 </template>
 
 <script>
-import { Button,Card } from "element-ui";
+import { Button } from "element-ui";
+import commentBox from "@/components/commentBox"
 export default {
 
   components: {
     "el-button": Button,
-    "el-card":Card
+    commentBox
   },
   props: ["commodity"],
   created() {},
   data() {
     return {
-      comment: [
+      comments: [
         {
           author: "lings",
           createtime: "2018-05-30",

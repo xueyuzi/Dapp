@@ -139,8 +139,8 @@ CommodityContract.prototype = {
         });
 
         this.Commodity.set(commodityKey, commodity);
-        this._commodityIndex++;
         this.CommodityKeys.set(this._commodityIndex, commodityKey);
+        this._commodityIndex++;        
     },
 
     getCommodity: function (commodityKey) {
@@ -154,6 +154,10 @@ CommodityContract.prototype = {
         var from = Blockchain.transaction.from;
         var time = Blockchain.transaction.timestamp.toString(10);
         var commentIndex = this.CommentCount.get(commodityKey);
+        // TODO:有點問題
+        if(commentIndex){
+            commentIndex = 0;
+        }
         var commentKey = "comment" + from + time + commentIndex++;
         var comment = new Comment({
             author: from,
